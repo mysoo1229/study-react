@@ -11,16 +11,17 @@
       <h2 class="container">검색</h2>
     </header>
     <div class="container">
-      <!-- TODO -->
       <form id="search-form-view">
         <label class="input-search">
           <input type="text">
           <span class="placeholder">검색어를 입력하세요</span>
         </label>
-        <button type="reset" class="button-reset">
-          <span class="sr-only">검색어 삭제</span>
-        </button>
+        <button type="reset" class="button-reset" aria-label="검색어 삭제"></button>
       </form>
+
+      <div class="content">
+        <div id="search-result-view"></div>
+      </div>
     </div>
     <script type="module" src="./js/main.js"></script>
   </body>
