@@ -28,6 +28,7 @@ export default class SearchFormView extends View {
     on(this.inputElement, "keydown", () => this.handleKeydown());
     on(this.inputElement, "keyup", () => this.handleKeyup());
     on(this.element, "submit", event => this.handleSubmit(event));
+    on(this.resetElement, 'click', () => this.handleReset());
   }
 
   handleKeydown() {
@@ -39,12 +40,22 @@ export default class SearchFormView extends View {
     const {value} = this.inputElement;
     this.showResetButton(value.length > 0);
     this.showPlaceholder(value.length === 0);
+
+    if (value.length === 0) {
+      this.handleReset();
+    }
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(tag, 'submitted');
     const {value} = this.inputElement;
     this.emit('@submit', {value});
+  }
+
+  handleReset() {
+    const {value} = this.inputElement;
+    this.emit('@reset', {value});
+    this.showResetButton(false);
+    this.showPlaceholder(true);
   }
 }
