@@ -27,6 +27,7 @@ export default class SearchFormView extends View {
   bindEvent() {
     on(this.inputElement, "keydown", () => this.handleKeydown());
     on(this.inputElement, "keyup", () => this.handleKeyup());
+    on(this.element, "submit", event => this.handleSubmit(event));
   }
 
   handleKeydown() {
@@ -38,5 +39,12 @@ export default class SearchFormView extends View {
     const {value} = this.inputElement;
     this.showResetButton(value.length > 0);
     this.showPlaceholder(value.length === 0);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    console.log(tag, 'submitted');
+    const {value} = this.inputElement;
+    this.emit('@submit', {value});
   }
 }
