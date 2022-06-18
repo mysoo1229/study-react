@@ -17,14 +17,25 @@ button:hover {
   cursor: pointer;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
 .container {
   margin: 0 15px 0 15px;
 }
 
 header {
-  border-bottom: 1px #ccc solid;
-  padding: 15px 0 15px 0;
+  padding: 10px 0;
   text-align: center;
+  background-color: #66cc96;
+  font-size: 14px;
+  color: #fff;
 }
 
 input[type=text] {
@@ -37,6 +48,19 @@ input[type=text] {
   line-height: 1.5;
   border: 1px solid #cccccc;
 
+}
+
+.input-search {
+  position: relative;
+}
+
+.input-search span {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: #666;
+  white-space: nowrap;
 }
 
 .content {
@@ -103,7 +127,37 @@ form {
   position: relative;
 }
 
-.btn-reset,
+.button-reset {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  width: 16px;
+  height: 16px;
+  border: none;
+  border-radius: 50%;
+  background-color: #ccc;
+  color: white;
+}
+
+.button-reset::before,
+.button-reset::after {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 2px;
+  top: 45%;
+  left: 50%;
+  background: #fff;
+}
+
+.button-reset::before {
+  transform: translateX(-50%) rotate(-45deg);
+}
+
+.button-reset::after {
+  transform: translateX(-50%) rotate(45deg);
+}
+
 .btn-remove {
   border-radius: 50%;
   background-color: #ccc;
@@ -112,13 +166,6 @@ form {
   padding: 2px 5px;
 }
 
-.btn-reset {
-  position: absolute;
-  top: 12px;
-  right: 10px;
-}
-
-.btn-reset::before,
 .btn-remove::before {
   content: 'X'
 }
