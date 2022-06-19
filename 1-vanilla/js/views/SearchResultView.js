@@ -36,7 +36,7 @@ class Template {
   _getItem({imageUrl, name}) {
     return `
       <li>
-        <img src="${imageUrl}" alt="${name}">
+        <span><img src="${imageUrl}" alt="${name}"></span>
         <p>${name}</p>
       </li>
     `
