@@ -58,4 +58,12 @@ export default class SearchFormView extends View {
     this.showResetButton(false);
     this.showPlaceholder(true);
   }
+
+  show(keyword = ''){
+    this.inputElement.value = keyword;
+    this.showResetButton(this.inputElement.value.length > 0);
+    this.showPlaceholder(this.inputElement.value.length === 0);
+
+    super.show();
+  }
 }
