@@ -130,8 +130,9 @@ ul.tabs {
 
 .list li .date {
   position: absolute;
+  top: 50%;
   right: 50px;
-  top: 15px;
+  transform: translateY(-50%);
   color: #ccc;
 }
 
@@ -146,19 +147,23 @@ form {
   position: relative;
 }
 
-.button-reset {
+.button-reset,
+.button-remove {
   position: absolute;
-  top: 12px;
+  top: 50%;
   right: 10px;
   width: 16px;
   height: 16px;
+  transform: translateY(-50%);
   border-radius: 50%;
   background-color: #ccc;
   color: white;
 }
 
 .button-reset::before,
-.button-reset::after {
+.button-reset::after,
+.button-remove::before,
+.button-remove::after {
   content: "";
   position: absolute;
   width: 9px;
@@ -168,24 +173,14 @@ form {
   background: #fff;
 }
 
-.button-reset::before {
+.button-reset::before,
+.button-remove::before {
   transform: translateX(-50%) rotate(-45deg);
 }
 
-.button-reset::after {
+.button-reset::after,
+.button-remove::after {
   transform: translateX(-50%) rotate(45deg);
-}
-
-.btn-remove {
-  border-radius: 50%;
-  background-color: #ccc;
-  color: white;
-  border: none;
-  padding: 2px 5px;
-}
-
-.btn-remove::before {
-  content: 'X'
 }
 
 .result li {
