@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
     <title>Lecture React</title>
   </head>
   <body>
@@ -20,10 +21,11 @@
 
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <script type="text/babel">
-      // const element = <React.createElement("h1", null, "Hello world")>;
-      const element = <h1>Hello World</h1>; //using JSX
-      ReactDOM.render(element, document.querySelector("#app"));
-    </script>
+    <script
+      type="text/babel"
+      src="js/main.js"
+      data-type="module"
+      data-presets="react"
+    ></script>
   </body>
 </html>
