@@ -1,17 +1,17 @@
-class App extends React.Component { //Controlled Component =  React가 관리하는 것
+import store from './js/Store.js';
+
+class App extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      searchKeyword: '' //입력값을 React가 관리할 수 있도록 여기 넣어둠
+      searchKeyword: '',
+      searchResult: '',
+      submitted: false
     }
   }
 
   handleChangeInput(event) {
-    // 이건 model과 view를 계속 업데이트하는 방식이라 React를 적절히 사용하는게 아님
-    // this.state.searchKeyword = event.target.value;
-    // this.forceUpdate(); //강제로 다시 render 하도록
-
     const searchKeyword = event.target.value;
 
     if (searchKeyword.length <= 0) {
@@ -23,34 +23,26 @@ class App extends React.Component { //Controlled Component =  React가 관리하
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log('handleSubmit:', this.state.searchKeyword);
+    this.search(this.state.searchKeyword);
+  }
+
+  search(searchKeyword) {
+    const searchResult = store.search(searchKeyword)
+    this.setState({
+      searchResult,
+      submitted: true
+    })
   }
 
   handleReset() {
-    // this.setState({ searchKeyword: '' }); 이건 비동기로 임시 저장된 값만 바꿔줌.
-
-    this.setState(() => { //변경된 상태값을 전달
+    this.setState(() => {
       return { searchKeyword: '' } 
-    }, () => { //모든 업데이트가 끝났으니 호출됨
-      console.log('handleSubmit:', this.state.searchKeyword);
+    }, () => {
+      console.log('리셋됨');
     })
   }
 
   render() {
-    // [method 1] using element
-    // let placeholder = <span className="placeholder">검색어를 입력하세요</span>;
-    // let resetButton = null;
-
-    // if (this.state.searchKeyword.length > 0) {
-    //   placeholder = null;
-    //   resetButton = <button type="reset" className="button-reset" aria-label="검색어 삭제"></button>
-    // }
-
-    // [method 2] using ternary operator (밑에 return 값에)
-    // {this.state.searchKeyword.length > 0 ? (
-    //   <button type="reset" className="button-reset" aria-label="검색어 삭제"></button>
-    // ) : null}
-
     return (
       <>
         <header>
@@ -72,6 +64,25 @@ class App extends React.Component { //Controlled Component =  React가 관리하
             </label>
             {this.state.searchKeyword.length > 0 && (<button type="reset" className="button-reset" aria-label="검색어 삭제"></button>)}
           </form>
+
+          <div className="content">
+            {this.state.submitted && (
+              this.state.searchResult.length > 0 ? (
+                <ul className="result">
+                  {this.state.searchResult.map(item => {
+                    return (
+                      <li key={item.id}>
+                        <span><img src={item.imageUrl} alt="" /></span>
+                        <p>{item.name}</p>
+                      </li>
+                    )
+                  })}
+                </ul>
+              ) : (
+                <div className="empty-box">검색 결과가 없습니다</div>
+              ) 
+            )}
+          </div>
         </div>
       </>
     )
