@@ -18,7 +18,8 @@ class App extends React.Component {
       searchKeyword: '',
       searchResult: '',
       submitted: false,
-      selectedTab: TabType.KEYWORD
+      selectedTab: TabType.KEYWORD,
+      keywordList: []
     }
   }
 
@@ -40,6 +41,7 @@ class App extends React.Component {
   search(searchKeyword) {
     const searchResult = store.search(searchKeyword)
     this.setState({
+      searchKeyword: searchKeyword,
       searchResult,
       submitted: true
     })
@@ -50,6 +52,11 @@ class App extends React.Component {
       searchKeyword: '',
       submitted: false
     });
+  }
+
+  componentDidMount() {
+    const keywordList = store.getKeywordList();
+    this.setState({ keywordList });
   }
 
   render() {
@@ -88,6 +95,24 @@ class App extends React.Component {
       )
     );
 
+    const keywordList = (
+      <ul className="list">
+        {this.state.keywordList.map((item, index) => {
+          return (
+            <li key={item.id}>
+              <span className="number">{index + 1}</span>
+              <button
+                type="button"
+                onClick={event => this.search(item.keyword)}
+              >
+                {item.keyword}
+              </button>
+            </li>
+          )
+        })}
+      </ul>
+    )
+
     const tabs = (
       <>
       <ul className="tabs">
@@ -106,8 +131,7 @@ class App extends React.Component {
           )
         })}
       </ul>
-      {this.state.selectedTab === TabType.KEYWORD && <>추천검색어</>}
-      {this.state.selectedTab === TabType.HISTORY && <>최근검색어</>}
+      {this.state.selectedTab === TabType.KEYWORD ? keywordList : '최근검색어'}
       </>
     );
 
