@@ -1,5 +1,15 @@
 import store from './js/Store.js';
 
+const TabType = {
+  KEYWORD: 'KEYWORD',
+  HISTORY: 'HISTORY'
+}
+
+const TabLabel = {
+  [TabType.KEYWORD]: '추천 검색어',
+  [TabType.HISTORY]: '최근 검색어',
+}
+
 class App extends React.Component {
   constructor() {
     super();
@@ -7,7 +17,8 @@ class App extends React.Component {
     this.state = {
       searchKeyword: '',
       searchResult: '',
-      submitted: false
+      submitted: false,
+      selectedTab: TabType.KEYWORD
     }
   }
 
@@ -77,6 +88,29 @@ class App extends React.Component {
       )
     );
 
+    const tabs = (
+      <>
+      <ul className="tabs">
+        {Object.values(TabType).map(tabType => {
+          return (
+            <li key={tabType}>
+              <button
+                type="button"
+                data-tab={tabType}
+                aria-selected={this.state.selectedTab === tabType ? true : false}
+                onClick={() => this.setState({ selectedTab: tabType })}
+              >
+                {TabLabel[tabType]}
+              </button>
+            </li>
+          )
+        })}
+      </ul>
+      {this.state.selectedTab === TabType.KEYWORD && <>추천검색어</>}
+      {this.state.selectedTab === TabType.HISTORY && <>최근검색어</>}
+      </>
+    );
+
     return (
       <>
         <header>
@@ -84,7 +118,9 @@ class App extends React.Component {
         </header>
         <div className="container">
           {searchForm}
-          <div className="content">{this.state.submitted && searchResult}</div>
+          <div className="content">
+            {this.state.submitted ? searchResult : tabs}
+          </div>
         </div>
       </>
     )
