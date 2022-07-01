@@ -2,23 +2,38 @@ import React from "react";
 import List from "./List.js";
 import store from "../Store.js";
 
-export default class KeywordList extends List {
-  componentDidMount() {
-    const data = store.getKeywordList();
-    this.setState({ data })
+export default class KeywordList extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      keywordList: []
+    };
   }
 
-  renderItem(item, index) {
+  componentDidMount() {
+    const keywordList = store.getKeywordList();
+    this.setState({ keywordList });
+  }
+
+  render() {
     return (
-      <>
-        <span className="number">{index + 1}</span>
-        <button
-          type="button"
-          onClick={() => this.props.onClick(item.keyword)}
-        >
-          {item.keyword}
-        </button>
-      </>
-    )
+      <List
+        data={this.state.keywordList}
+        renderItem={(item, index) => {
+          return (
+            <>
+              <span className="number">{index + 1}</span>
+              <button
+                type="button"
+                onClick={() => this.props.onClick(item.keyword)}
+              >
+                {item.keyword}
+              </button>
+            </>
+          );
+        }}
+      />
+    );
   }
 }
