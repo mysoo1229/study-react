@@ -70,7 +70,7 @@ export default class App extends React.Component {
               />
               {selectedTab === TabType.KEYWORD &&
                 <KeywordList
-                  onClick={(keyword) => this.search(keyword)}
+                  onKeywordClick={(keyword) => this.search(keyword)}
                 />
               }
               {selectedTab === TabType.HISTORY &&
