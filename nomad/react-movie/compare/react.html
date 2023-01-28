@@ -10,18 +10,35 @@
 
   <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
-  <script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
     const root = document.getElementById('root');
-    const h3 = React.createElement('h3', { id: 'my-span', style: { color: '#99c' } }, 'Hello I\'m a span');
-    const btn = React.createElement(
-      'button',
-      {
-        onClick: () => console.log('i am clicked')
-      },
-      'Click me');
-    const container = React.createElement('div', null, [h3, btn]);
+    // const h3 = React.createElement('h3', { id: 'my-span', style: { color: '#99c' } }, 'Hello I\'m a span');
+    // const btn = React.createElement(
+    //   'button',
+    //   {
+    //     onClick: () => console.log('i am clicked')
+    //   },
+    //   'Click me');
+    // const container = React.createElement('div', null, [h3, btn]);
 
-    ReactDOM.render(container, root); //render: 'show it to the user'
+    function Title() {
+      return (
+        <h3 id="title" style={{ color: '#99c' } }>Hello I'm a title</h3>
+      );
+    }
+    const Button = () => (
+      <button onClick={() => console.log('i am clicked')}>Click me</button>
+    );
+
+    const Container = () => (
+      <div>
+        <Title />
+        <Button />
+      </div>
+    );
+
+    ReactDOM.render(<Container />, root); //render: 'show it to the user'
   </script>
 </body>
 
