@@ -6,7 +6,7 @@ import Home from "./routes/Home";
 function App() {
   return <Router>
     <Switch>
-      <Route path="/movie">
+      <Route path="/movie/:id">
         <Detail />
       </Route>
       <Route path="/">
