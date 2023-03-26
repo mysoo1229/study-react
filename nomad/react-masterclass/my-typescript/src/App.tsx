@@ -11,6 +11,22 @@ function App() {
 
     // = event.currentTarget.value
 
+    //왜 이렇게 쓰는가? 변수를 여러개 쓸땐 아래처럼 쓸 수도 있다
+    const value = event.currentTarget.value;
+    const tagName = event.currentTarget.tagName;
+    const width = event.currentTarget.width;
+    const id = event.currentTarget.id;
+
+    const {
+      currentTarget: {value, tagName, width, id}
+    } = event;
+
+    // 만약 event 안에 바로 있는 변수를 쓴다면
+    const x = event.x
+    const y = event.y
+
+    const {x, y} = event;
+
     setValue(value);
   };
 
