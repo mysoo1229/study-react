@@ -15,7 +15,10 @@ const Header = styled.header`
   height: 10vh;
 `;
 
-const CoinsList = styled.ul``;
+const CoinsList = styled.ul`
+  max-width: 400px;
+  margin: 0 auto;
+`;
 
 const Coin = styled.li`
   margin-bottom: 12px;
