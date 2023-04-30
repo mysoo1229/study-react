@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Helmet } from "react-helmet";
 import {
@@ -15,14 +14,36 @@ import Chart from "./Chart";
 import Price from "./Price";
 
 const Container = styled.div`
+  max-width: 460px;
   padding: 0px 20px;
+  margin: 0 auto;
 `;
 
 const Header = styled.header`
   display: flex;
+  position: relative;
+  width: 100%;
   justify-content: center;
   align-items: center;
   height: 10vh;
+`;
+
+const BackBtnWrap = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translate3D(0, -50%, 0) rotate(45deg);
+
+  a {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-top: transparent;
+    border-right: transparent;
+    border-bottom: 3px solid #666;
+    border-left: 3px solid #666;
+    cursor: pointer;
+  }
 `;
 
 const Title = styled.h1`
@@ -33,11 +54,6 @@ const Title = styled.h1`
 
 const Loader = styled.div`
   text-align: center;
-`;
-
-const Contents = styled.div`
-  max-width: 400px;
-  margin: 0 auto;
 `;
 
 const Overview = styled.div`
@@ -200,11 +216,14 @@ function Coin() {
         <title>{state?.name ? state.name : loading ? "loading..." : infoData?.name}</title>
       </Helmet>
       <Header>
+        <BackBtnWrap>
+          <Link to={"/"} />
+        </BackBtnWrap>
         <Title>{state?.name ? state.name : loading ? "loading..." : infoData?.name}</Title>
       </Header>
       {loading
         ? <Loader>loading...</Loader>
-        : <Contents>
+        : <>
             <Overview>
               <OverviewItem>
                 <span>Rank:</span>
@@ -252,7 +271,7 @@ function Coin() {
                 <Chart coinId={coinId} />
               </Route>
             </Switch>
-          </Contents>
+          </>
       }
     </Container>
   );
