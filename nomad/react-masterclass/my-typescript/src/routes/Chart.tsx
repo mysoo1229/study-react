@@ -57,7 +57,6 @@ function Chart({ coinId}: ChartProps) {
             },
             colors: [
               '#4692ff',
-              '#66cc96'
             ],
             stroke: {
               width: 4,
@@ -71,10 +70,27 @@ function Chart({ coinId}: ChartProps) {
               },
               axisTicks: {
                 show: false,
-              }
+              },
+              categories:
+                data?.slice(0, 14).map(price => 
+                  new Date(price.time_close * 1000).toUTCString()
+                ) ?? [],
+              type: "datetime",
             },
             yaxis: {
               show: false,
+            },
+            fill: {
+              type: "gradient",
+              gradient: {
+                gradientToColors: ["#66cc96"],
+                stops: [0, 80],
+              }
+            },
+            tooltip: {
+              y: {
+                formatter: (value) => `$${value.toFixed(2)}`
+              }
             }
           }}
         />
