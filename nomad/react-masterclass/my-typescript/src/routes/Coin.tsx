@@ -10,7 +10,8 @@ import {
 } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
-import Chart from "./Chart";
+import LineChart from "./LineChart";
+import CandleChart from "./CandleChart";
 import Price from "./Price";
 
 const Container = styled.div`
@@ -80,9 +81,11 @@ const Description = styled.p`
 
 const Tabs = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   margin: 25px 0px;
   gap: 10px;
+  background: #f3f3f3;
+  border-radius: 10px;
 `;
 
 const Tab = styled.span<{ isActive : boolean }>`
@@ -90,13 +93,12 @@ const Tab = styled.span<{ isActive : boolean }>`
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 400;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 7px 0px;
-  border-radius: 10px;
-  color: ${props => props.isActive ? props.theme.accentColor : props.theme.textColor};
+  color: ${props => props.isActive ? props.theme.accentColor : props.theme.bgColor};
 
   a {
     display: block;
+    padding: 10px 0px;
+    font-weight: bold;
   }
 `;
 
@@ -178,7 +180,8 @@ function Coin() {
   // const [info, setInfo] = useState<InfoData>();
   // const [priceInfo, setPriceInfo] = useState<PriceData>();
   const priceMatch = useRouteMatch("/:coinId/price");
-  const chartMatch = useRouteMatch("/:coinId/chart");
+  const lineChartMatch = useRouteMatch("/:coinId/linechart");
+  const candleChartMatch = useRouteMatch("/:coinId/candlechart");
 
 /*   useEffect(() => {
     (async () => {
@@ -248,9 +251,14 @@ function Coin() {
             </Overview>
 
             <Tabs>
-              <Tab isActive={chartMatch !== null}>
-                <Link to={`/${coinId}/chart`}>
-                  Chart
+              <Tab isActive={lineChartMatch !== null}>
+                <Link to={`/${coinId}/linechart`}>
+                  Line Chart
+                </Link>
+              </Tab>
+              <Tab isActive={candleChartMatch !== null}>
+                <Link to={`/${coinId}/candlechart`}>
+                  Candlestick Chart
                 </Link>
               </Tab>
               <Tab isActive={priceMatch !== null}>
@@ -261,11 +269,14 @@ function Coin() {
             </Tabs>
 
             <Switch>
-              <Route path={`/${coinId}/price`}>
-                <Price />
+              <Route path={`/${coinId}/linechart`}>
+                <LineChart coinId={coinId} />
               </Route>
-              <Route path={`/${coinId}/chart`}>
-                <Chart coinId={coinId} />
+              <Route path={`/${coinId}/candlechart`}>
+                <CandleChart coinId={coinId} />
+              </Route>
+              <Route path={`/${coinId}/price`}>
+                <Price coinId={coinId} />
               </Route>
             </Switch>
           </>

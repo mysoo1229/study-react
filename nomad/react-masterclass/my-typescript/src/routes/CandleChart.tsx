@@ -17,7 +17,7 @@ interface ChartProps {
   coinId: string;
 }
 
-function Chart({ coinId}: ChartProps) {
+function CandleChart({ coinId}: ChartProps) {
   // const params = useParams();
   const { isLoading, data } = useQuery<IHistoricalData[]>(
     ["ohlcv", coinId],
@@ -110,4 +110,4 @@ function Chart({ coinId}: ChartProps) {
   </div>;
 }
 
-export default Chart;
+export default CandleChart;
