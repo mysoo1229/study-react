@@ -10,7 +10,7 @@ const PriceList = styled.ul`
 
 const PriceItem = styled.li`
   flex-shrink: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: ${props => props.theme.fillColor};
   padding: 20px;
   border-radius: 10px;
   text-align: center;

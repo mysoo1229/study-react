@@ -41,8 +41,8 @@ const BackBtnWrap = styled.div`
     height: 20px;
     border-top: transparent;
     border-right: transparent;
-    border-bottom: 3px solid #666;
-    border-left: 3px solid #666;
+    border-bottom: 3px solid ${props => props.theme.textColor};
+    border-left: 3px solid ${props => props.theme.textColor};
     cursor: pointer;
   }
 `;
@@ -60,7 +60,7 @@ const Loader = styled.div`
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: ${props => props.theme.fillColor};
   padding: 10px 20px;
   border-radius: 10px;
 `;
@@ -84,7 +84,7 @@ const Tabs = styled.div`
   grid-template-columns: repeat(3, 1fr);
   margin: 25px 0px;
   gap: 10px;
-  background: #f3f3f3;
+  background: ${props => props.theme.textColor};
   border-radius: 10px;
 `;
 
