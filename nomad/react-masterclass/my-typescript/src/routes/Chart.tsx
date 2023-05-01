@@ -22,10 +22,20 @@ function Chart({ coinId}: ChartProps) {
   const { isLoading, data } = useQuery<IHistoricalData[]>(
     ["ohlcv", coinId],
     () => fetchCoinHistory(coinId),
-    {
-      refetchInterval: 10000,
-    }
   );
+
+  const candleStickData = data?.slice(0, 14).map((price) => {
+    return {
+      x: new Date(price.time_close * 1000).toUTCString(),
+      y:
+        [
+          parseFloat(price.open),
+          parseFloat(price.high),
+          parseFloat(price.low),
+          parseFloat(price.close),
+        ]
+    }
+  });
 
   return <div>
     {isLoading ?
@@ -33,12 +43,11 @@ function Chart({ coinId}: ChartProps) {
         "Loading chart..."
       ) : (
         <ApexChart
-          type="line"
+          type="candlestick"
           series={[
             {
-              name: "Price",
-              data: data?.slice(0, 14).map(price => parseFloat(price.close)) ?? [],
-            },
+              data: candleStickData ?? []
+            }
           ]}
           options={{
             theme: {
@@ -59,11 +68,16 @@ function Chart({ coinId}: ChartProps) {
                 opacity: 0.3
               }
             },
-            colors: [
-              '#4692ff',
-            ],
+            plotOptions: {
+              candlestick: {
+                colors: {
+                  upward: '#66cc96',
+                  downward: '#4692ff',
+                }
+              }
+            },
             stroke: {
-              width: 4,
+              width: 2
             },
             xaxis: {
               labels: {
@@ -83,13 +97,6 @@ function Chart({ coinId}: ChartProps) {
             },
             yaxis: {
               show: false,
-            },
-            fill: {
-              type: "gradient",
-              gradient: {
-                gradientToColors: ["#66cc96"],
-                stops: [0, 80],
-              }
             },
             tooltip: {
               y: {
