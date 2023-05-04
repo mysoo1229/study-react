@@ -84,8 +84,8 @@ const Tabs = styled.div`
   grid-template-columns: repeat(3, 1fr);
   margin: 25px 0px;
   gap: 10px;
-  background: ${props => props.theme.textColor};
-  border-radius: 10px;
+  border: 4px solid ${props => props.theme.fillColor};
+  border-radius: 12px;
 `;
 
 const Tab = styled.span<{ isActive : boolean }>`
@@ -93,7 +93,7 @@ const Tab = styled.span<{ isActive : boolean }>`
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 400;
-  color: ${props => props.isActive ? props.theme.accentColor : props.theme.bgColor};
+  color: ${props => props.isActive ? props.theme.accentColor : props.theme.textColor};
 
   a {
     display: block;
@@ -173,7 +173,11 @@ interface PriceData {
   }
 }
 
-function Coin() {
+interface ICoinProps {
+  isDark: boolean;
+}
+
+function Coin({ isDark }: ICoinProps) {
   // const [loading, setLoading] = useState(true);
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
@@ -270,10 +274,10 @@ function Coin() {
 
             <Switch>
               <Route path={`/${coinId}/linechart`}>
-                <LineChart coinId={coinId} />
+                <LineChart coinId={coinId} isDark={isDark} />
               </Route>
               <Route path={`/${coinId}/candlechart`}>
-                <CandleChart coinId={coinId} />
+                <CandleChart coinId={coinId} isDark={isDark} />
               </Route>
               <Route path={`/${coinId}/price`}>
                 <Price coinId={coinId} />

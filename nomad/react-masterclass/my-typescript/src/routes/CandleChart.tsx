@@ -15,9 +15,10 @@ interface IHistoricalData {
 
 interface ChartProps {
   coinId: string;
+  isDark: boolean;
 }
 
-function CandleChart({ coinId}: ChartProps) {
+function CandleChart({ coinId, isDark }: ChartProps) {
   // const params = useParams();
   const { isLoading, data } = useQuery<IHistoricalData[]>(
     ["ohlcv", coinId],
@@ -51,7 +52,7 @@ function CandleChart({ coinId}: ChartProps) {
           ]}
           options={{
             theme: {
-              mode: "dark"
+              mode: isDark? "dark" : "light"
             },
             chart: {
               width: 500,
@@ -62,7 +63,7 @@ function CandleChart({ coinId}: ChartProps) {
               background: "transparent",
             },
             grid: {
-              borderColor: '#666',
+              borderColor: isDark? "#444" : "#ddd",
               row: {
                 colors: undefined,
                 opacity: 0.3

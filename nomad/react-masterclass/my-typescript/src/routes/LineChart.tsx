@@ -15,9 +15,10 @@ interface IHistoricalData {
 
 interface ChartProps {
   coinId: string;
+  isDark: boolean;
 }
 
-function LineChart({ coinId}: ChartProps) {
+function LineChart({ coinId, isDark }: ChartProps) {
   // const params = useParams();
   const { isLoading, data } = useQuery<IHistoricalData[]>(
     ["ohlcv", coinId],
@@ -39,7 +40,7 @@ function LineChart({ coinId}: ChartProps) {
           ]}
           options={{
             theme: {
-              mode: "dark"
+              mode: isDark? "dark" : "light"
             },
             chart: {
               width: 500,
@@ -50,7 +51,7 @@ function LineChart({ coinId}: ChartProps) {
               background: "transparent",
             },
             grid: {
-              borderColor: '#666',
+              borderColor: isDark? "#444" : "#ddd",
               row: {
                 colors: undefined,
                 opacity: 0.3
