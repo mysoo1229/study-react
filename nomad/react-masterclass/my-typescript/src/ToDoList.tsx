@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
-function ToDoList() {
+/* function ToDoList() {
   const [toDo, setToDo] = useState("");
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
     const {
@@ -16,6 +17,25 @@ function ToDoList() {
     <div>
       <form onSubmit={onSubmit}>
         <input value={toDo} onChange={onChange} placeholder="Write a to do" />
+        <button>Add</button>
+      </form>
+    </div>
+  );
+} */
+
+function ToDoList() {
+  const { register, watch } = useForm();
+  console.log(watch());
+
+  return (
+    <div>
+      <form>
+        <input {...register("email")} placeholder="Email" />
+        <input {...register("firstName")} placeholder="First Name" />
+        <input {...register("lastName")} placeholder="Last Name" />
+        <input {...register("userName")} placeholder="User Name" />
+        <input {...register("password")} placeholder="Password" />
+        <input {...register("passwordConfirm")} placeholder="Password Confirm" />
         <button>Add</button>
       </form>
     </div>
