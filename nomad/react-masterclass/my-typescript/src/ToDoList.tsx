@@ -30,6 +30,7 @@ interface IForm {
   userName: string;
   password: string;
   passwordConfirm: string;
+  extraError?: string;
 };
 
 function ToDoList() {
@@ -37,15 +38,26 @@ function ToDoList() {
     register,
     handleSubmit,
     formState: {errors},
+    setError,
   } = useForm<IForm>({
     defaultValues: {
       email: "@naver.com",
     },
   });
 
-  const onValid = (data: any) => {
-    console.log(data);
+  const onValid = (data: IForm) => {
+    if (data.password !== data.passwordConfirm) {
+      setError(
+        "passwordConfirm",
+        { message: "Passwords do not match" },
+        { shouldFocus: true },
+      );
+    }
+
+    setError("extraError", { message: "Service not available"})
   };
+
+  console.log(errors);
 
   return (
     <div>
@@ -68,6 +80,10 @@ function ToDoList() {
         <input
           {...register("firstName", {
             required: "First Name is required",
+            validate: {
+              noNico: (value) => value.includes('nico') ? "No Nico's allowed" : true,
+              noNick: (value) => value.includes('nick') ? "No Nick's allowed" : true,
+            }
           })}
           placeholder="First Name"
         />
@@ -112,6 +128,7 @@ function ToDoList() {
         <span>{errors?.passwordConfirm?.message}</span>
 
         <button>Add</button>
+        <span>{errors?.extraError?.message}</span>
       </form>
     </div>
   );
