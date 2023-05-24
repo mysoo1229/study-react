@@ -19,6 +19,7 @@ const ResultList = styled.ul`
 
 function ToDoList() {
   const toDos = useRecoilValue(toDoState);
+  console.log(toDos);
 
   return (
     <Container>
