@@ -19,20 +19,29 @@ const Boards = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
+  align-items: flex-start;
   width: 100%;
 `;
 
 function App() {
   const [toDos, setToDos] = useRecoilState(todoState);
-  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
-    if (!destination) return;
-/*     setToDos((oldToDos) => {
-      const toDosCopy = [...oldToDos];
-      toDosCopy.splice(source.index, 1);
-      toDosCopy.splice(destination?.index, 0, draggableId);
 
-      return toDosCopy;
-    }); */
+  const onDragEnd = (info: DropResult) => {
+    const { destination, draggableId, source } = info;
+
+    if (destination?.droppableId === source.droppableId) {
+      //same board
+      setToDos((allBoards) => {
+        const boardCopy = [...allBoards[source.droppableId]]; //copying source array only
+        boardCopy.splice(source.index, 1);
+        boardCopy.splice(destination?.index, 0, draggableId);
+
+        return {
+          ...allBoards,
+          [source.droppableId]: boardCopy //upadating that key
+        };
+      });
+    }
   };
 
   return (

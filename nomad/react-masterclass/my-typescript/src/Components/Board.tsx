@@ -3,7 +3,6 @@ import DraggableCard from "./DraggableCard";
 import styled from "styled-components";
 
 const BoardWrap = styled.div`
-  min-height: 200px;
   padding: 10px;
   border-radius: 12px;
   background-color: ${(props) => props.theme.boardColor};
