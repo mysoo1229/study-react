@@ -1,0 +1,42 @@
+import { Droppable } from "react-beautiful-dnd";
+import DraggableCard from "./DraggableCard";
+import styled from "styled-components";
+
+const BoardWrap = styled.div`
+  min-height: 200px;
+  padding: 10px;
+  border-radius: 12px;
+  background-color: ${(props) => props.theme.boardColor};
+`;
+
+const Title = styled.h2`
+  margin: 10px 0 15px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+`;
+
+interface IBoardProps {
+  toDos: string[];
+  boardId: string;
+}
+
+function Board({ toDos, boardId }: IBoardProps) {
+  return (
+    <BoardWrap>
+      <Title>{boardId}</Title>
+      <Droppable droppableId={boardId}>
+        {(magic) => (
+          <div ref={magic.innerRef} {...magic.droppableProps}>
+            {toDos.map((toDo, index) => (
+              <DraggableCard key={toDo} toDo={toDo} index={index} />
+            ))}
+            {magic. placeholder}
+          </div>
+        )}
+      </Droppable>
+    </BoardWrap>
+  )
+}
+
+export default Board;
