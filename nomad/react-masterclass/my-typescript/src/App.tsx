@@ -29,6 +29,8 @@ function App() {
   const onDragEnd = (info: DropResult) => {
     const { destination, draggableId, source } = info;
 
+    if (!destination) return;
+
     if (destination?.droppableId === source.droppableId) {
       //same board
       setToDos((allBoards) => {
@@ -39,6 +41,22 @@ function App() {
         return {
           ...allBoards,
           [source.droppableId]: boardCopy //upadating that key
+        };
+      });
+    }
+
+    if (destination.droppableId !== source.droppableId) {
+      //cross board
+      setToDos((allBoards) => {
+        const sourceBoard = [...allBoards[source.droppableId]];
+        const destinationBoard = [...allBoards[destination.droppableId]]; //copying source array only
+        sourceBoard.splice(source.index, 1);
+        destinationBoard.splice(destination.index, 0, draggableId);
+
+        return {
+          ...allBoards,
+          [source.droppableId]: sourceBoard,
+          [destination.droppableId]: destinationBoard,
         };
       });
     }
