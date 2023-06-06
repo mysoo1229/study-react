@@ -35,8 +35,9 @@ function App() {
       //same board
       setToDos((allBoards) => {
         const boardCopy = [...allBoards[source.droppableId]]; //copying source array only
+        const taskObject = boardCopy[source.index];
         boardCopy.splice(source.index, 1);
-        boardCopy.splice(destination?.index, 0, draggableId);
+        boardCopy.splice(destination?.index, 0, taskObject);
 
         return {
           ...allBoards,
@@ -49,9 +50,10 @@ function App() {
       //cross board
       setToDos((allBoards) => {
         const sourceBoard = [...allBoards[source.droppableId]];
+        const taskObject = sourceBoard[source.index];
         const destinationBoard = [...allBoards[destination.droppableId]]; //copying source array only
         sourceBoard.splice(source.index, 1);
-        destinationBoard.splice(destination.index, 0, draggableId);
+        destinationBoard.splice(destination.index, 0, taskObject);
 
         return {
           ...allBoards,
