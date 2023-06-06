@@ -27,8 +27,7 @@ const Area = styled.div<IAreaProps>`
   min-height: 56px;
   padding: 4px;
   border-radius: 10px;
-  background-color: ${(props) => props.isDraggingOver ? "pink" : props.isDraggingFrom ? "tomato" : "#66cc96"};
-  transition: background-color .3s ease-in-out
+  background-color: ${(props) => props.isDraggingOver ? "#ccc" : props.isDraggingFrom ? "#999" : "transparent"};
 `;
 
 interface IBoardProps {
