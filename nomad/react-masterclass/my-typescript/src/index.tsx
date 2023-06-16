@@ -44,11 +44,11 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     line-height: 1;
-    background: ${(props) => props.theme.bgColor};
+    background: linear-gradient(135deg,#66cc96,#4692ff);
   }
   body * {
     font-family: 'Rubik', sans-serif;
-    color: linear-gradient(135deg,#e09,#d0e);
+    color: #000;
   }
   menu, ol, ul {
     list-style: none;

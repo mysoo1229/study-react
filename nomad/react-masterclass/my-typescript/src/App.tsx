@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,8 +20,8 @@ const Box = styled.div`
 function App() {
   return (
       <Wrapper>
-        <Box>
-        </Box>
+        <Box />
+        <motion.div></motion.div>
       </Wrapper>
   );
 }
