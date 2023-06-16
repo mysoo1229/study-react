@@ -48,7 +48,7 @@ const GlobalStyle = createGlobalStyle`
   }
   body * {
     font-family: 'Rubik', sans-serif;
-    color: ${(props) => props.theme.textColor};
+    color: linear-gradient(135deg,#e09,#d0e);
   }
   menu, ol, ul {
     list-style: none;
