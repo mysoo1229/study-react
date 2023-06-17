@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 100px;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -79,6 +78,11 @@ const circleVar = {
   end: {opacity: 1, y: 0, transition: {duration: .2}},
 };
 
+const boxVar3 = {
+  hover: {scale: 1.5, rotateZ: 90},
+  tap: {scale:1, borderRadius: "100px"},
+};
+
 function App() {
   return (
       <Wrapper>
@@ -96,6 +100,16 @@ function App() {
             <Circle variants={circleVar} />
             <Circle variants={circleVar} />
           </BoxTranparent>
+        </Item>
+
+        <Item>
+          <Title>Gestures</Title>
+          <Box variants={boxVar3} whileHover="hover" whileTap="tap" />
+        </Item>
+
+        <Item>
+          <Title>Drag</Title>
+          <Box drag whileDrag={{backgroundColor: "#f26"}} />
         </Item>
       </Wrapper>
   );
