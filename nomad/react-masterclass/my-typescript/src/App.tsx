@@ -9,6 +9,8 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100vh;
+  padding: 0 30px;
+  box-sizing: border-box;
 `;
 
 const Item = styled.div`
@@ -29,9 +31,14 @@ const Box = styled(motion.div)`
   width: 100px;
   height: 100px;
   background: #fff;
-  border-radius: 16px;
+  border-radius: 20px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, .1), 0 10px 20px rgba(0, 0, 0, .06);
 `;
+
+const myVars = {
+  start: {scale: 0},
+  end: {scale: 1, rotateZ: 360, transition: {type: "spring", delay: .5}},
+};
 
 function App() {
   return (
@@ -39,9 +46,9 @@ function App() {
         <Item>
           <Title>Animation</Title>
           <Box
-            transition={{type: "spring", delay: .5}}
-            initial={{scale: 0}}
-            animate={{scale: 1, rotateZ: 360}}
+            variants={myVars}
+            initial="start"
+            animate="end"
           />
         </Item>
       </Wrapper>
