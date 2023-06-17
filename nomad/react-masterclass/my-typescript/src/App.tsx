@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { useRef } from "react";
 
 const Wrapper = styled.div`
   display: grid;
@@ -39,6 +40,20 @@ const BoxTranparent = styled(Box)`
   grid-template-columns: repeat(2, 1fr);
   padding: 5px;
   background: rgba(255, 255, 255, .2);
+`;
+
+const BoxWrap = styled(Box)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, .2);
+  overflow: hidden;
+`;
+
+const BoxSmall = styled(Box)`
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
 `;
 
 const Circle = styled(motion.div)`
@@ -84,6 +99,8 @@ const boxVar3 = {
 };
 
 function App() {
+  const boxWrapRef = useRef<HTMLDivElement>(null);
+
   return (
       <Wrapper>
         <Item>
@@ -103,13 +120,20 @@ function App() {
         </Item>
 
         <Item>
-          <Title>Gestures</Title>
+          <Title>Gestures (Click!)</Title>
           <Box variants={boxVar3} whileHover="hover" whileTap="tap" />
         </Item>
 
         <Item>
           <Title>Drag</Title>
-          <Box drag whileDrag={{backgroundColor: "#f26"}} />
+          <BoxWrap ref={boxWrapRef}>
+            <BoxSmall
+              drag
+              // dragSnapToOrigin 중심으로 돌아옴
+              // dragElastic={1} 마우스를 얼마나 빨리 따라오는지 - 1은 바로 따라옴 0은 안따라옴
+              dragConstraints={boxWrapRef}
+            />
+          </BoxWrap>
         </Item>
       </Wrapper>
   );
