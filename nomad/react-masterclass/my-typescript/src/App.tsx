@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { motion } from "framer-motion";
-import { useRef } from "react";
+import { motion, useMotionValue, useMotionValueEvent } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 const Wrapper = styled.div`
   display: grid;
@@ -101,6 +101,11 @@ const boxVar3 = {
 function App() {
   const boxWrapRef = useRef<HTMLDivElement>(null);
 
+  const x = useMotionValue(0);
+  useMotionValueEvent(x, "change", (value) => {
+    console.log(value);
+  });
+
   return (
       <Wrapper>
         <Item>
@@ -134,6 +139,12 @@ function App() {
               dragConstraints={boxWrapRef}
             />
           </BoxWrap>
+        </Item>
+
+        <Item>
+          <Title>Motion Value</Title>
+          <Box style={{ x }} drag="x" dragSnapToOrigin />
+          {/* <button onClick={() => x.set(200)}>Click!</button> */}
         </Item>
       </Wrapper>
   );
