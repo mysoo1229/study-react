@@ -1,8 +1,15 @@
 import styled from "styled-components";
-import { motion, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
+import { motion, useMotionValue, useMotionValueEvent, useScroll, useTransform, useViewportScroll } from "framer-motion";
 import { useRef } from "react";
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
+  width: 100%;
+  height: 300vh;
+  background: linear-gradient(90deg rgb(102, 204, 150),rgb(70, 146, 255));
+`;
+
+const List = styled.div`
+  position: fixed;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-content: center;
@@ -102,13 +109,22 @@ function App() {
   const boxWrapRef = useRef<HTMLDivElement>(null);
 
   const x = useMotionValue(0);
-  const scale = useTransform(x, [-800, 0, 800], [2, 1, 0.1]);
-  useMotionValueEvent(scale, "change", (value) => {
-    console.log(value);
-  });
+  const rotateZ = useTransform(x, [-800, 800], [-360, 360]);
+  const gradient = useTransform(
+    x,
+    [-600, 0, 600],
+    [
+      'linear-gradient(90deg,rgb(159, 96, 218),rgb(234, 107, 141))',
+      'linear-gradient(90deg,rgb(102, 204, 150),rgb(70, 146, 255))',
+      'linear-gradient(90deg,rgb(239, 201, 119),rgb(137, 237, 117))',
+    ]
+  );
+
+  const { scrollYProgress } = useScroll();
 
   return (
-      <Wrapper>
+    <Wrapper style={{ background: gradient }}>
+      <List>
         <Item>
           <Title>Animation</Title>
           <Box variants={boxVar1} initial="start" animate="end" />
@@ -143,12 +159,11 @@ function App() {
         </Item>
 
         <Item>
-          <Title>Motion Value</Title>
-          <Box style={{ x, scale }} drag="x" dragSnapToOrigin />
-          {/* <Box style={{ x, scale: scaleRatio }} drag="x" dragSnapToOrigin /> */}
-          {/* <button onClick={() => x.set(200)}>Click!</button> */}
+          <Title>Motion Value (Scroll!)</Title>
+          <Box style={{ x, rotateZ, scale: scrollYProgress }} drag="x" dragSnapToOrigin />
         </Item>
-      </Wrapper>
+      </List>
+    </Wrapper>
   );
 }
 

@@ -44,7 +44,6 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     line-height: 1;
-    background: linear-gradient(135deg,#66cc96,#4692ff);
   }
   body * {
     font-family: 'Rubik', sans-serif;
