@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { motion, useMotionValue, useMotionValueEvent } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { motion, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const Wrapper = styled.div`
   display: grid;
@@ -102,7 +102,8 @@ function App() {
   const boxWrapRef = useRef<HTMLDivElement>(null);
 
   const x = useMotionValue(0);
-  useMotionValueEvent(x, "change", (value) => {
+  const scale = useTransform(x, [-800, 0, 800], [2, 1, 0.1]);
+  useMotionValueEvent(scale, "change", (value) => {
     console.log(value);
   });
 
@@ -143,7 +144,8 @@ function App() {
 
         <Item>
           <Title>Motion Value</Title>
-          <Box style={{ x }} drag="x" dragSnapToOrigin />
+          <Box style={{ x, scale }} drag="x" dragSnapToOrigin />
+          {/* <Box style={{ x, scale: scaleRatio }} drag="x" dragSnapToOrigin /> */}
           {/* <button onClick={() => x.set(200)}>Click!</button> */}
         </Item>
       </Wrapper>
