@@ -72,6 +72,16 @@ const Circle = styled(motion.div)`
   box-shadow: 0 2px 3px rgba(0, 0, 0, .1), 0 10px 20px rgba(0, 0, 0, .06);
 `;
 
+const Svg = styled.svg`
+  width: 100px;
+  height: 100px;
+
+  path {
+    stroke: #fff;
+    stroke-width: 16;
+  }
+`;
+
 const boxVar1 = {
   start: {scale: 0},
   end: {scale: 1, rotateZ: 360, transition: {type: "spring", delay: .5}},
@@ -104,6 +114,11 @@ const boxVar3 = {
   hover: {scale: 1.5, rotateZ: 90},
   tap: {scale:1, borderRadius: "100px"},
 };
+
+const svgVar = {
+  start: {pathLength: 0, fill: "rgba(255, 255, 255, 0"},
+  end: {pathLength: 1, fill: "rgba(255, 255, 255, 1"},
+}
 
 function App() {
   const boxWrapRef = useRef<HTMLDivElement>(null);
@@ -161,6 +176,22 @@ function App() {
         <Item>
           <Title>Motion Value (Scroll!)</Title>
           <Box style={{ x, rotateZ, scale: scrollYProgress }} drag="x" dragSnapToOrigin />
+        </Item>
+
+        <Item>
+          <Title>Svg</Title>
+          <Svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="-10 0 660 512">
+            <motion.path
+              variants={svgVar}
+              initial="start"
+              animate="end"
+              transition={{
+                default: {duration: 2},
+                fill: {duration: 2, delay: 2},
+              }}
+              d="M0 336c0 79.5 64.5 144 144 144H512c70.7 0 128-57.3 128-128c0-61.9-44-113.6-102.4-125.4c4.1-10.7 6.4-22.4 6.4-34.6c0-53-43-96-96-96c-19.7 0-38.1 6-53.3 16.2C367 64.2 315.3 32 256 32C167.6 32 96 103.6 96 192c0 2.7 .1 5.4 .2 8.1C40.2 219.8 0 273.2 0 336z"
+            />
+          </Svg>
         </Item>
       </List>
     </Wrapper>
