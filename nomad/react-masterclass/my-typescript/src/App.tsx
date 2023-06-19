@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { AnimatePresence, motion, useMotionValue, useScroll, useTransform } from "framer-motion";
+import { useRef, useState } from "react";
 
 const Wrapper = styled(motion.div)`
   width: 100%;
@@ -81,6 +81,17 @@ const Svg = styled.svg`
   }
 `;
 
+const InnerWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  button {
+    margin-bottom: 20px;
+  }
+`;
+
 const boxVar1 = {
   start: {scale: 0},
   end: {scale: 1, rotateZ: 360, transition: {type: "spring", delay: .5}},
@@ -119,6 +130,22 @@ const svgVar = {
   end: {pathLength: 1, fill: "rgba(255, 255, 255, 1"},
 }
 
+const boxVar4 = {
+  initial: {
+    opacity: 0,
+    scale: 0,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    rotateZ: 360,
+  },
+  leaving: {
+    opacity: 0,
+    y: 30,
+  },
+}
+
 function App() {
   const boxWrapRef = useRef<HTMLDivElement>(null);
 
@@ -136,6 +163,9 @@ function App() {
 
   const { scrollYProgress } = useScroll();
   const scrollSize = useTransform(scrollYProgress, [0, .3], [1, .1]);
+
+  const [showing, setShowing] = useState(false);
+  const toggleShowing = () => setShowing((prev) => !prev);
 
   return (
     <Wrapper style={{ background: gradient }}>
@@ -194,6 +224,20 @@ function App() {
           </Svg>
         </Item>
       </List>
+
+      <InnerWrap>
+        <button onClick={toggleShowing}>Click</button>
+        <AnimatePresence>
+          {showing ? (
+            <Box
+              variants={boxVar4}
+              initial="initial"
+              animate="visible"
+              exit="leaving"
+            />
+          ) : null}
+        </AnimatePresence>
+      </InnerWrap>
     </Wrapper>
   );
 }
