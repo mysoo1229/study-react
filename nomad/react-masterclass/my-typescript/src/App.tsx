@@ -84,12 +84,32 @@ const Svg = styled.svg`
 const InnerWrap = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  margin: 100px 0 200px;
+  height: 200px;
   
   button {
     margin-bottom: 20px;
   }
+`;
+
+const SliderWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+  }
+`;
+
+const SlideViewport = styled.div`
+  display: flex;
+  margin: 20px 0;
 `;
 
 const boxVar1 = {
@@ -146,6 +166,30 @@ const boxVar4 = {
   },
 }
 
+const slideVar = {
+  invisible: {
+    x: 500,
+    opacity: 0,
+    scale: 0,
+    transition: {
+      duration: 1,
+    }
+  },
+  visible: {
+    x: 0,
+    opacity: 1,
+    scale: 1,
+  },
+  exit: {
+    x: -500,
+    opacity: 0,
+    scale: 0,
+    transition: {
+      duration: 1,
+    }
+  },
+}
+
 function App() {
   const boxWrapRef = useRef<HTMLDivElement>(null);
 
@@ -166,6 +210,9 @@ function App() {
 
   const [showing, setShowing] = useState(false);
   const toggleShowing = () => setShowing((prev) => !prev);
+
+  const [visible, setVisible] = useState(1);
+  const nextPlease = () => setVisible((prev) => (prev === 10 ? 10 : prev + 1));
 
   return (
     <Wrapper style={{ background: gradient }}>
@@ -226,6 +273,7 @@ function App() {
       </List>
 
       <InnerWrap>
+        <Title>Animate on Show/Hide</Title>
         <button onClick={toggleShowing}>Click</button>
         <AnimatePresence>
           {showing ? (
@@ -238,6 +286,28 @@ function App() {
           ) : null}
         </AnimatePresence>
       </InnerWrap>
+
+      <SliderWrap>
+        <Title>Slider</Title>
+        <SlideViewport>
+          <AnimatePresence>
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
+              i === visible ? (
+                <Box
+                  variants={slideVar}
+                  initial="invisible"
+                  animate="visible"
+                  exit="exit"
+                  key={i}
+                >
+                  {i}
+                </Box> 
+              ) : null
+            ))}
+          </AnimatePresence>
+        </SlideViewport>
+        <button onClick={nextPlease}>next</button>
+      </SliderWrap>
     </Wrapper>
   );
 }
