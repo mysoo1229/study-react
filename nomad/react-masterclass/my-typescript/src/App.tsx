@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { motion, useMotionValue, useMotionValueEvent, useScroll, useTransform, useViewportScroll } from "framer-motion";
+import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 const Wrapper = styled(motion.div)`
@@ -9,7 +9,6 @@ const Wrapper = styled(motion.div)`
 `;
 
 const List = styled.div`
-  position: fixed;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-content: center;
@@ -136,6 +135,7 @@ function App() {
   );
 
   const { scrollYProgress } = useScroll();
+  const scrollSize = useTransform(scrollYProgress, [0, .3], [1, .1]);
 
   return (
     <Wrapper style={{ background: gradient }}>
@@ -175,7 +175,7 @@ function App() {
 
         <Item>
           <Title>Motion Value (Scroll!)</Title>
-          <Box style={{ x, rotateZ, scale: scrollYProgress }} drag="x" dragSnapToOrigin />
+          <Box style={{ x, rotateZ, scale: scrollSize }} drag="x" dragSnapToOrigin />
         </Item>
 
         <Item>
