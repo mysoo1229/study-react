@@ -169,12 +169,12 @@ const boxVar4 = {
 const slideVar = {
   entry: (backward: boolean) => {
     return {
-      x: backward ? -500 : 500,
+      x: backward ? -200 : 200,
       opacity: 0,
       scale: 0,
       transition: {
+        type: "tween",
         duration: .3,
-        bounce: 0,
       }
     }
   },
@@ -185,11 +185,11 @@ const slideVar = {
   },
   exit: (backward: boolean) => {
     return {
-      x: backward ? 500 : -500,
+      x: backward ? 200 : -200,
       opacity: 0,
       scale: 0,
       transition: {
-        bounce: 0,
+        type: "tween",
         duration: .3,
       }
     }
