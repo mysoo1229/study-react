@@ -167,27 +167,33 @@ const boxVar4 = {
 }
 
 const slideVar = {
-  invisible: {
-    x: 500,
-    opacity: 0,
-    scale: 0,
-    transition: {
-      duration: 1,
+  entry: (backward: boolean) => {
+    return {
+      x: backward ? -500 : 500,
+      opacity: 0,
+      scale: 0,
+      transition: {
+        duration: .3,
+        bounce: 0,
+      }
     }
   },
-  visible: {
+  center: {
     x: 0,
     opacity: 1,
     scale: 1,
   },
-  exit: {
-    x: -500,
-    opacity: 0,
-    scale: 0,
-    transition: {
-      duration: 1,
+  exit: (backward: boolean) => {
+    return {
+      x: backward ? 500 : -500,
+      opacity: 0,
+      scale: 0,
+      transition: {
+        bounce: 0,
+        duration: .3,
+      }
     }
-  },
+  }
 }
 
 function App() {
@@ -212,7 +218,15 @@ function App() {
   const toggleShowing = () => setShowing((prev) => !prev);
 
   const [visible, setVisible] = useState(1);
-  const nextPlease = () => setVisible((prev) => (prev === 10 ? 10 : prev + 1));
+  const [backward, setBackward] = useState(false);
+  const nextPlease = () => {
+    setBackward(false);
+    setVisible((prev) => (prev === 10 ? 10 : prev + 1));
+  };
+  const prevPlease = () => {
+    setBackward(true);
+    setVisible((prev) => (prev === 1 ? 1 : prev - 1));
+  };
 
   return (
     <Wrapper style={{ background: gradient }}>
@@ -289,21 +303,19 @@ function App() {
 
       <SliderWrap>
         <Title>Slider</Title>
+        <button onClick={prevPlease}>prev</button>
         <SlideViewport>
-          <AnimatePresence>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
-              i === visible ? (
-                <Box
-                  variants={slideVar}
-                  initial="invisible"
-                  animate="visible"
-                  exit="exit"
-                  key={i}
-                >
-                  {i}
-                </Box> 
-              ) : null
-            ))}
+          <AnimatePresence mode="wait" custom={backward}>
+              <Box
+                custom={backward}
+                variants={slideVar}
+                initial="entry"
+                animate="center"
+                exit="exit"
+                key={visible}
+              >
+                {visible}
+              </Box>
           </AnimatePresence>
         </SlideViewport>
         <button onClick={nextPlease}>next</button>
