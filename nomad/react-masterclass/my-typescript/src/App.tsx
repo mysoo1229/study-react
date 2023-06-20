@@ -8,6 +8,12 @@ const Wrapper = styled(motion.div)`
   background: linear-gradient(90deg rgb(102, 204, 150),rgb(70, 146, 255));
 `;
 
+const flexDefault = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const List = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -19,11 +25,8 @@ const List = styled.div`
   box-sizing: border-box;
 `;
 
-const Item = styled.div`
-  display: flex;
-  flex-direction: column;
+const Item = styled(flexDefault)`
   justify-content: center;
-  align-items: center;
 `;
 
 const Title = styled.h2`
@@ -81,10 +84,7 @@ const Svg = styled.svg`
   }
 `;
 
-const InnerWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+const InnerWrap = styled(flexDefault)`
   margin: 100px 0 200px;
   height: 200px;
   
@@ -93,12 +93,9 @@ const InnerWrap = styled.div`
   }
 `;
 
-const SliderWrap = styled.div`
-  display: flex;
-  flex-direction: column;
+const SliderWrap = styled(flexDefault)`
   justify-content: center;
-  align-items: center;
-  
+
   div {
     display: flex;
     justify-content: center;
