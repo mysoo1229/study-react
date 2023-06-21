@@ -109,6 +109,24 @@ const SlideViewport = styled.div`
   margin: 20px 0;
 `;
 
+const MoreWrap = styled(flexDefault)`
+  flex-direction: row;
+  margin-top: 200px;
+  justify-content: center;
+  gap: 50px;
+
+  div {
+    overflow: visible;
+  }
+`;
+
+const Circle2 = styled(motion.div)`
+  width: 30px;
+  height: 30px;
+  background-color: #ffcb1e;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, .1), 0 10px 20px rgba(0, 0, 0, .06);
+`;
+
 const boxVar1 = {
   start: {scale: 0},
   end: {scale: 1, rotateZ: 360, transition: {type: "spring", delay: .5}},
@@ -225,6 +243,12 @@ function App() {
     setVisible((prev) => (prev === 1 ? 1 : prev - 1));
   };
 
+  const [clicked, setClicked] = useState(false);
+  const toggleClick = () => setClicked((prev) => !prev);
+
+  const [clicked2, setClicked2] = useState(false);
+  const toggleClick2 = () => setClicked2((prev) => !prev);
+
   return (
     <Wrapper style={{ background: gradient }}>
       <List>
@@ -317,6 +341,20 @@ function App() {
         </SlideViewport>
         <button onClick={nextPlease}>next</button>
       </SliderWrap>
+
+      <MoreWrap onClick={toggleClick}>
+        <BoxWrap style={{
+          justifyContent: clicked ? "center" : "flex-start",
+          alignItems: clicked ? "center" : "flex-start",
+        }}>
+          <Circle2 layout />
+        </BoxWrap>
+      </MoreWrap>
+
+      <MoreWrap onClick={toggleClick2}>
+        <BoxWrap>{!clicked2 ? <Circle2 layoutId="sameId" style={{borderRadius: 20}} /> : null}</BoxWrap>
+        <BoxWrap>{clicked2 ? <Circle2 layoutId="sameId" style={{borderRadius: 0, scale: 2}} /> : null}</BoxWrap>
+      </MoreWrap>
     </Wrapper>
   );
 }
