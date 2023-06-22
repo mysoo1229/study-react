@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 
 const Wrapper = styled(motion.div)`
   width: 100%;
-  height: 300vh;
+  padding-bottom: 100px;
   background: linear-gradient(90deg rgb(102, 204, 150),rgb(70, 146, 255));
 `;
 
@@ -125,6 +125,37 @@ const Circle2 = styled(motion.div)`
   height: 30px;
   background-color: #ffcb1e;
   box-shadow: 0 2px 3px rgba(0, 0, 0, .1), 0 10px 20px rgba(0, 0, 0, .06);
+`;
+
+const GridWrap = styled(flexDefault)`
+  position: relative;
+  padding: 200px 0;
+  justify-content: center;
+`;
+
+const Grid = styled.div`
+  display: grid;
+  width: 50vw;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+
+  div {
+    width: auto;
+  }
+
+  div:first-child,
+  div:last-child {
+    grid-column: span 2;
+  }
+`;
+
+const Overlay = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 `;
 
 const boxVar1 = {
@@ -249,6 +280,9 @@ function App() {
   const [clicked2, setClicked2] = useState(false);
   const toggleClick2 = () => setClicked2((prev) => !prev);
 
+  const [clicked3, setClicked3] = useState(false);
+  const toggleClick3 = () => setClicked3((prev) => !prev);
+
   return (
     <Wrapper style={{ background: gradient }}>
       <List>
@@ -355,6 +389,29 @@ function App() {
         <BoxWrap>{!clicked2 ? <Circle2 layoutId="sameId" style={{borderRadius: 20}} /> : null}</BoxWrap>
         <BoxWrap>{clicked2 ? <Circle2 layoutId="sameId" style={{borderRadius: 0, scale: 2}} /> : null}</BoxWrap>
       </MoreWrap>
+
+      <GridWrap onClick={toggleClick3}>
+        <Grid>
+          <Box layoutId="hello" />
+          <Box />
+          <Box />
+          <Box />
+        </Grid>
+        <AnimatePresence>
+          {clicked3 ? (
+            <Overlay
+              initial={{backgroundColor: "rgba(0, 0, 0, 0)"}}
+              animate={{backgroundColor: "rgba(0, 0, 0, .5)"}}
+              exit={{backgroundColor: "rgba(0, 0, 0, 0)"}}
+            >
+              <Box
+                layoutId="hello"
+                style={{width: 300, height: 160}}
+              />
+            </Overlay>
+            ) : null}
+          </AnimatePresence>
+      </GridWrap>
     </Wrapper>
   );
 }
