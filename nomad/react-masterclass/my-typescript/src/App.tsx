@@ -280,8 +280,8 @@ function App() {
   const [clicked2, setClicked2] = useState(false);
   const toggleClick2 = () => setClicked2((prev) => !prev);
 
-  const [clicked3, setClicked3] = useState(false);
-  const toggleClick3 = () => setClicked3((prev) => !prev);
+  const [id, setId] = useState<null | string>(null);
+  console.log(id);
 
   return (
     <Wrapper style={{ background: gradient }}>
@@ -390,22 +390,26 @@ function App() {
         <BoxWrap>{clicked2 ? <Circle2 layoutId="sameId" style={{borderRadius: 0, scale: 2}} /> : null}</BoxWrap>
       </MoreWrap>
 
-      <GridWrap onClick={toggleClick3}>
+      <GridWrap>
         <Grid>
-          <Box layoutId="hello" />
-          <Box />
-          <Box />
-          <Box />
+          {["1", "2", "3", "4"].map((num) => (
+            <Box
+              onClick={() => setId(num)}
+              key={num}
+              layoutId={num}
+            />
+          ))}
         </Grid>
         <AnimatePresence>
-          {clicked3 ? (
+          {id ? (
             <Overlay
+              onClick={() => setId(null)}
               initial={{backgroundColor: "rgba(0, 0, 0, 0)"}}
               animate={{backgroundColor: "rgba(0, 0, 0, .5)"}}
               exit={{backgroundColor: "rgba(0, 0, 0, 0)"}}
             >
               <Box
-                layoutId="hello"
+                layoutId={id}
                 style={{width: 300, height: 160}}
               />
             </Overlay>
