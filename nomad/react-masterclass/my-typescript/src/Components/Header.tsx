@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {motion} from "framer-motion";
 import { Link, useRouteMatch } from "react-router-dom";
+import { useState } from "react";
 
 const Nav = styled.nav`
   display: flex;
@@ -55,14 +56,31 @@ const Item = styled.li`
 `;
 
 const Search = styled.span`
+  display: flex;
+  position: relative;
+  align-items: center;
   color: white;
 
   svg {
-    height: 25px;
+    height: 22px;
+    fill: white;
   }
 `;
 
-const Circle = styled.span`
+const Input = styled(motion.input)`
+  position: absolute;
+  transform-origin: right center;
+  right: 0px;
+  width: 200px;
+  padding: 5px 8px 5px 35px;
+  z-index: -1;
+  color: white;
+  font-size: 13px;
+  background-color: transparent;
+  border: 1px solid ${(props) => props.theme.white.lighter};
+`;
+
+const Circle = styled(motion.span)`
   position: absolute;
   right: 0;
   bottom: -8px;
@@ -87,9 +105,10 @@ const logoVariants = {
 }
 
 function Header() {
+  const [searchOpen, setSearchOpen] = useState(false);
   const homeMatch = useRouteMatch("/");
   const tvMatch = useRouteMatch("/tv");
-  console.log(homeMatch, tvMatch)
+  const toggleSearch = () => setSearchOpen(prev => !prev);
 
   return (
     <Nav>
@@ -108,19 +127,22 @@ function Header() {
         <Items>
           <Item>
             <Link to="/">
-              Home {homeMatch?.isExact && <Circle />}
+              Home {homeMatch?.isExact && <Circle layoutId="circle" />}
             </Link>
           </Item>
           <Item>
             <Link to="/tv">
-              TV Shows {tvMatch && <Circle />}
+              TV Shows {tvMatch && <Circle layoutId="circle" />}
             </Link>
           </Item>
         </Items>
       </Col>
       <Col>
         <Search>
-          <svg
+          <motion.svg
+            onClick={toggleSearch}
+            animate={{x: searchOpen ? -170 : 0}}
+            transition={{type: "linear"}}
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -130,7 +152,13 @@ function Header() {
               d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
               clipRule="evenodd"
             ></path>
-          </svg>
+          </motion.svg>
+          <Input
+            initial={{scaleX: 0}}
+            animate={{scaleX: searchOpen ? 1 : 0}}
+            transition={{type: "linear"}}
+            placeholder="Title, people, genre"
+          />
         </Search>
       </Col>
     </Nav>
