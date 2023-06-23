@@ -1,16 +1,15 @@
 import styled from "styled-components";
-import {motion} from "framer-motion";
+import { motion, useAnimation, useMotionValueEvent, useScroll } from "framer-motion";
 import { Link, useRouteMatch } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const Nav = styled.nav`
+const Nav = styled(motion.nav)`
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: fixed;
   width: 100%;
   top: 0;
-  background-color: black;
   font-size: 14px;
   padding: 20px 60px;
   color: white;
@@ -104,14 +103,48 @@ const logoVariants = {
   },
 }
 
+const navVariants = {
+  top: {backgroundColor: "rgba(0, 0, 0, 1)"},
+  scroll: {backgroundColor: "rgba(0, 0, 0, 0)"},
+}
+
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const homeMatch = useRouteMatch("/");
   const tvMatch = useRouteMatch("/tv");
-  const toggleSearch = () => setSearchOpen(prev => !prev);
+  const inputAnimation = useAnimation();
+  const navAnimation = useAnimation();
+  const { scrollY } = useScroll();
+  const toggleSearch = () => {
+    if (searchOpen) {
+      // trigger the close animation
+      inputAnimation.start({
+        scaleX: 0
+      })
+    } else {
+      // trigger the open animation
+      inputAnimation.start({
+        scaleX: 1
+      })
+    }
+
+    setSearchOpen(prev => !prev);
+  }
+
+  useMotionValueEvent(scrollY, "change", (currentY) => {
+    if (currentY > 65) {
+      navAnimation.start("top")
+    } else {
+      navAnimation.start("scroll")
+    }
+  })
 
   return (
-    <Nav>
+    <Nav
+      variants={navVariants}
+      animate={navAnimation}
+      initial="top"
+    >
       <Col>
         <Logo
           whileHover="active"
@@ -155,7 +188,7 @@ function Header() {
           </motion.svg>
           <Input
             initial={{scaleX: 0}}
-            animate={{scaleX: searchOpen ? 1 : 0}}
+            animate={inputAnimation}
             transition={{type: "linear"}}
             placeholder="Title, people, genre"
           />
