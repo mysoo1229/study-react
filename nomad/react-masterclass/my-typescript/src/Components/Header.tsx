@@ -104,8 +104,8 @@ const logoVariants = {
 }
 
 const navVariants = {
-  top: {backgroundColor: "rgba(0, 0, 0, 1)"},
-  scroll: {backgroundColor: "rgba(0, 0, 0, 0)"},
+  top: {backgroundColor: "rgba(0, 0, 0, 0)"},
+  scroll: {backgroundColor: "rgba(0, 0, 0, 1)"},
 }
 
 function Header() {
@@ -133,9 +133,9 @@ function Header() {
 
   useMotionValueEvent(scrollY, "change", (currentY) => {
     if (currentY > 65) {
-      navAnimation.start("top")
-    } else {
       navAnimation.start("scroll")
+    } else {
+      navAnimation.start("top")
     }
   })
 

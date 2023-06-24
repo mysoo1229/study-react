@@ -40,10 +40,11 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     line-height: 1;
+    background-color: ${props => props.theme.black.veryDark};
   }
   body * {
     font-family: 'Rubik', sans-serif;
-    color: #000;
+    color: ${props => props.theme.white.darker};
   }
   menu, ol, ul {
     list-style: none;
