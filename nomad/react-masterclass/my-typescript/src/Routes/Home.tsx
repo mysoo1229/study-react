@@ -7,6 +7,7 @@ import { useState } from "react";
 
 const Wrapper = styled.div`
   overflow-x: hidden;
+  padding-bottom: 200px;
 `;
 
 const Loader = styled.div`
@@ -16,13 +17,13 @@ const Loader = styled.div`
   height: 20vh;
 `;
 
-const Banner = styled.div<{ bgPhoto: string }>`
+const Banner = styled.div<{ bgphoto: string }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   height: 100vh;
   padding: 60px;
-  background-image: linear-gradient(to right, rgba(0, 0, 0, .5), rgba(0, 0, 0 , 0)), url(${props => props.bgPhoto});
+  background-image: linear-gradient(to right, rgba(0, 0, 0, .5), rgba(0, 0, 0 , 0)), url(${props => props.bgphoto});
   background-size: cover;
 `;
 
@@ -51,24 +52,26 @@ const Row = styled(motion.div)`
   width: 100%;
 `;
 
-const Box = styled(motion.div)`
+const Box = styled(motion.div)<{ bgphoto: string }>`
   height: 200px;
-  background: #c9c;
+  background: url(${(props) => props.bgphoto}) no-repeat center / cover;
   font-size: 40px;
   color: #222;
 `;
 
 const rowVariants = {
   hidden: {
-    x: window.outerWidth,
+    x: window.innerWidth,
   },
   visible: {
     x: 0,
   },
   exit: {
-    x: -window.outerWidth,
+    x: -window.innerWidth,
   },
 }
+
+const offset = 6;
 
 function Home() {
   const { data, isLoading } = useQuery<IGetMoviesResult>(
@@ -77,8 +80,20 @@ function Home() {
   );
 
   const [index, setIndex] = useState(0);
-  const increaseIndex = () => setIndex((prev) => prev + 1);
-  console.log(index);
+  const [leaving, setLeaving] = useState(false);
+  const increaseIndex = () => {
+    if (data) {
+      if (leaving) return;
+
+      const totalMovies = data?.results.length - 1; // -1인 이유는 한개는 메인에 써서
+      const maxIndex = Math.floor(totalMovies / offset) - 1;
+
+      setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+      toggleLeaving();
+    }
+  };
+  const toggleLeaving = () => setLeaving((prev) => !prev);
+
 
   return (
     <Wrapper>
@@ -86,12 +101,15 @@ function Home() {
         <Loader>Loading</Loader>
       ) : (
         <>
-          <Banner onClick={increaseIndex} bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}>
+          <Banner onClick={increaseIndex} bgphoto={makeImagePath(data?.results[0].backdrop_path || "")}>
             <Title>{data?.results[0].title}</Title>
             <Overview>{data?.results[0].overview}</Overview>
           </Banner>
           <Slider>
-            <AnimatePresence>
+            <AnimatePresence
+              initial={false}
+              onExitComplete={toggleLeaving}
+            >
               <Row
                 variants={rowVariants}
                 initial="hidden"
@@ -100,8 +118,15 @@ function Home() {
                 transition={{type: "tween", duration: 1}}
                 key={index}
               >
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <Box key={i}>{i}</Box>
+                {data?.results
+                  .slice(1)
+                  .slice(offset*index, offset*index + offset)
+                  .map((movie) => (
+                    <Box
+                      key={movie.id}
+                      bgphoto={makeImagePath(movie.backdrop_path, "w500")}
+                    >
+                    </Box>
                 ))}
               </Row>
             </AnimatePresence>
