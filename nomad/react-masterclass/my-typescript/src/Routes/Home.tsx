@@ -55,8 +55,6 @@ const Row = styled(motion.div)`
 const Box = styled(motion.div)<{ bgphoto: string }>`
   height: 200px;
   background: url(${(props) => props.bgphoto}) no-repeat center / cover;
-  font-size: 40px;
-  color: #222;
 
   &:first-child {
     transform-origin: center left;
@@ -64,6 +62,26 @@ const Box = styled(motion.div)<{ bgphoto: string }>`
 
   &:last-child {
     transform-origin: center right;
+  }
+`;
+
+const Info = styled(motion.div)`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 16px 20px;
+  background-color: ${props => props.theme.black.lighter};
+  opacity: 0;
+
+  h4 {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    height: 48px;
+    font-size: 18px;
+    line-height: 24px;
   }
 `;
 
@@ -84,7 +102,7 @@ const boxVariants = {
     scale: 1,
   },
   hover: {
-    y: -30,
+    y: -50,
     scale: 1.3,
     transition: {
       type: "tween",
@@ -93,6 +111,17 @@ const boxVariants = {
     },
   }
 }
+
+const infoVariants = {
+  hover: {
+    opacity: 1,
+    transition: {
+      type: "tween",
+      duration: .2,
+      delay: .3,
+    },
+  },
+};
 
 const offset = 6;
 
@@ -153,6 +182,9 @@ function Home() {
                       transition={{type: "tween"}}
                       bgphoto={makeImagePath(movie.backdrop_path, "w500")}
                     >
+                      <Info variants={infoVariants}>
+                        <h4>{movie.title}</h4>
+                      </Info>
                     </Box>
                 ))}
               </Row>
