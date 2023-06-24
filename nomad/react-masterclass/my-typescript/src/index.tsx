@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RecoilRoot } from 'recoil';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { myTheme } from "./theme";
 import App from './App';
 window.React = React;
-
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-
 
 const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
@@ -68,11 +66,16 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const client = new QueryClient(); 
+
 root.render(
   <RecoilRoot>
-    <ThemeProvider theme={myTheme}>
-      <GlobalStyle />
-      <App />
-    </ThemeProvider>
+    <QueryClientProvider client={client}>
+      <ThemeProvider theme={myTheme}>
+        <GlobalStyle />
+        <App />
+      </ThemeProvider>
+    </QueryClientProvider>
   </RecoilRoot>
 );
