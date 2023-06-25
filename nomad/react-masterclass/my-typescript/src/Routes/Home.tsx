@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { getMovies, IGetMoviesResult } from "../api";
 import { makeImagePath } from "../utils";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll } from "framer-motion";
 import { useState } from "react";
 import { useHistory, useRouteMatch } from "react-router";
 
@@ -87,6 +87,26 @@ const Info = styled(motion.div)`
   }
 `;
 
+const Overlay = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+`;
+
+const BigMovie = styled(motion.div)`
+  position: fixed;
+  width: 40vw;
+  height: 60vh;
+  top: 10vh;
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+  background: white;
+`;
+
 const rowVariants = {
   hidden: {
     x: window.innerWidth,
@@ -150,11 +170,11 @@ function Home() {
 
   const history = useHistory();
   const bigMovieMatch = useRouteMatch<{movieId: string}>("/movies/:movieId");
+  const { scrollY } = useScroll();
   const onBoxClick = (movieId: number) => {
     history.push(`/movies/${movieId}`);
   };
-
-  console.log(bigMovieMatch);
+  const onOverlayClick = () => history.push("/");
 
   return (
     <Wrapper>
@@ -203,10 +223,11 @@ function Home() {
           </Slider>
           <AnimatePresence>
             {bigMovieMatch ? (
-              <motion.div
-                layoutId={bigMovieMatch.params.movieId}
-                style={{ position: "fixed",width: "40vw", height: "60vh", backgroundColor:"white", top: 50, right: 0, left: 0, margin: "0 auto"}}
-              /> ) : null}
+              <>
+                <Overlay onClick={onOverlayClick} animate={{opacity: 1}} exit={{opacity: 0}} />
+                <BigMovie layoutId={bigMovieMatch.params.movieId}>hello</BigMovie>
+              </>
+              ) : null}
           </AnimatePresence>
         </>
       )}
