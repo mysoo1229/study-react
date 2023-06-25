@@ -4,6 +4,7 @@ import { getMovies, IGetMoviesResult } from "../api";
 import { makeImagePath } from "../utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { useHistory, useRouteMatch } from "react-router";
 
 const Wrapper = styled.div`
   overflow-x: hidden;
@@ -55,6 +56,7 @@ const Row = styled(motion.div)`
 const Box = styled(motion.div)<{ bgphoto: string }>`
   height: 200px;
   background: url(${(props) => props.bgphoto}) no-repeat center / cover;
+  cursor: pointer;
 
   &:first-child {
     transform-origin: center left;
@@ -146,6 +148,13 @@ function Home() {
   };
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
+  const history = useHistory();
+  const bigMovieMatch = useRouteMatch<{movieId: string}>("/movies/:movieId");
+  const onBoxClick = (movieId: number) => {
+    history.push(`/movies/${movieId}`);
+  };
+
+  console.log(bigMovieMatch);
 
   return (
     <Wrapper>
@@ -176,11 +185,13 @@ function Home() {
                   .map((movie) => (
                     <Box
                       key={movie.id}
+                      layoutId={movie.id + ""}
                       variants={boxVariants}
                       initial="normal"
                       whileHover="hover"
                       transition={{type: "tween"}}
                       bgphoto={makeImagePath(movie.backdrop_path, "w500")}
+                      onClick={() => onBoxClick(movie.id)}
                     >
                       <Info variants={infoVariants}>
                         <h4>{movie.title}</h4>
@@ -190,6 +201,13 @@ function Home() {
               </Row>
             </AnimatePresence>
           </Slider>
+          <AnimatePresence>
+            {bigMovieMatch ? (
+              <motion.div
+                layoutId={bigMovieMatch.params.movieId}
+                style={{ position: "fixed",width: "40vw", height: "60vh", backgroundColor:"white", top: 50, right: 0, left: 0, margin: "0 auto"}}
+              /> ) : null}
+          </AnimatePresence>
         </>
       )}
     </Wrapper>  
