@@ -1,3 +1,1 @@
-import { init, exit } from "./myPackage";
-
-init();
+console.log("bye");
