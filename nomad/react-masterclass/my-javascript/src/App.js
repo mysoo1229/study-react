@@ -1,41 +1,16 @@
-import { useState } from "react";
-
-const tabs = [
-  {
-    tab: "Section 1",
-    content: "content of section 1"
-  },
-  {
-    tab: "Section 2",
-    content: "content of section 2"
-  }
-];
-
-const useTabs = (initialTab, allTabs) => {
-  const [currentIndex, setCurrentIndex] = useState(initialTab);
-
-  if (!allTabs || !Array.isArray(allTabs)) {
-    return;
-  }
-
-  return {
-    currentItem: allTabs[currentIndex],
-    changeItem: setCurrentIndex
-  };
-};
+import { useEffect, useState } from "react";
 
 function App() {
-  const { currentItem, changeItem } = useTabs(0, tabs);
+  const [number1, setNumber1] = useState(0);
+  const [number2, setNumber2] = useState(0);
+  const sayHello = () => console.log('hello');
+  // useEffect(sayHello, [number1]); //number1이 바뀔때만 executed
+  useEffect(sayHello, []); //맨 처음에 render했을때만 executed
 
   return (
     <div className="App">
-      {tabs.map((section, index) => (
-        <button
-          key={section.tab}
-          onClick={() => changeItem(index)}
-        >{section.tab}</button>
-      ))}
-      <div>{currentItem.content}</div>
+      <button onClick={() => setNumber1(number1 + 1)}>{number1}</button>
+      <button onClick={() => setNumber2(number2 + 1)}>{number2}</button>
     </div>
   );
 }
