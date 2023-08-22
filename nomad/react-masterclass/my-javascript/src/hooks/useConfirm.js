@@ -17,16 +17,3 @@ const useConfirm = (message = "", onConfirm, onCancel) => {
 
   return confirmAction;
 };
-
-const App = () => {
-  const deleteWorld = () => console.log("bye world");
-  const abort = () => console.log("nope just kidding");
-  const confirmDelete = useConfirm("Are you sure?", deleteWorld, abort);
-  return (
-    <div className="App">
-      <button onClick={confirmDelete}>Delete the world</button>
-    </div>
-  );
-}
-
-export default App;
