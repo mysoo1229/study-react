@@ -1,32 +1,42 @@
-import { useEffect, useState } from "react";
+import { useRef } from "react";
 
-const useScroll = () => {
-  const [state, setState] = useState({
-    x: 0,
-    y: 0,
-  });
+const useFullscrean = (callback) => {
+  const element = useRef();
 
-  const onScroll = () => {
-    setState({
-      x: window.scrollX,
-      y: window.scrollY
-    }); 
-  }
+  const enterFullscreen = () => {
+    if (element.current) {
+      element.current.requestFullscreen();
 
-  useEffect(() => {
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+      if (callback && typeof callback === "function") {
+        callback(true);
+      }
+    }
+  };
 
-  return state;
+  const exitFullscreen = () => {
+    document.exitFullscreen();
+
+    if (callback && typeof callback === "function") {
+      callback(false);
+    }
+  };
+
+  return { element, enterFullscreen, exitFullscreen};
 };
 
 const App = () => {
-  const {y} = useScroll();
+  const onFullscreen = (isFull) => {
+    console.log(isFull ? "full" : "small");
+  }
+  const { element, enterFullscreen, exitFullscreen } = useFullscrean(onFullscreen);
 
   return (
-    <div className="App" style={{ height: "300vh" }}>
-      <h1 style={{ position: "fixed", color: y > 100 ? "red" : "blue" }}>WOW</h1>
+    <div className="App">
+      <div ref={element}>
+        <img src="http://trimg.interpark.com/g/r/d/0/2023/5/22/20a3abd5752bc4901a1830a29f860920.jpg" alt="" />
+        <button onClick={exitFullscreen}>Exit Fullscreen</button>
+      </div>
+      <button onClick={enterFullscreen}>EnterFullscreen</button>
     </div>
   );
 };
