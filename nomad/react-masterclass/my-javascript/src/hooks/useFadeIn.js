@@ -1,6 +1,4 @@
-import { useEffect, useRef } from "react";
-
-const useFadeIn = (duration = .5, delay = 0) => {
+export const useFadeIn = (duration = .5, delay = 0) => {
   const element = useRef();
 
   useEffect(() => {
@@ -20,17 +18,3 @@ const useFadeIn = (duration = .5, delay = 0) => {
     style: {opacity: 0}
   }
 };
-
-const App = () => {
-  const fadeInH1 = useFadeIn(2, 1);
-  const fadeInP = useFadeIn(1, 3);
-
-  return (
-    <div className="App">
-      <h1 {...fadeInH1}>Hello</h1>
-      <p {...fadeInP}>I wanna go home.</p>
-    </div>
-  );
-};
-
-export default App;
