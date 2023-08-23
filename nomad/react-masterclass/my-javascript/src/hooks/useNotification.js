@@ -1,4 +1,4 @@
-const useNotification = (title, options) => {
+export const useNotification = (title, options) => {
   if (!("Notification" in window)) {
     return;
   }
@@ -9,7 +9,7 @@ const useNotification = (title, options) => {
         if (permission === "granted") {
           new Notification(title, options);
         } else {
-          return; //okay bye...
+          return;
         }
       })
     } else {
@@ -19,15 +19,3 @@ const useNotification = (title, options) => {
 
   return fireNotif;
 };
-
-const App = () => {
-  const triggerNotif = useNotification("I wanna go home");
-
-  return (
-    <div className="App">
-      <button onClick={triggerNotif}>Click Here</button>
-    </div>
-  );
-};
-
-export default App;
