@@ -1,31 +1,15 @@
-const useNotification = (title, options) => {
-  if (!("Notification" in window)) {
-    return;
-  }
-
-  const fireNotif = () => {
-    if (Notification.permission !== "granted") {
-      Notification.requestPermission().then(permission => {
-        if (permission === "granted") {
-          new Notification(title, options);
-        } else {
-          return; //okay bye...
-        }
-      })
-    } else {
-      new Notification(title, options);
-    }
-  };
-
-  return fireNotif;
-};
+import { useAxios } from "./hooks/useAxios";
 
 const App = () => {
-  const triggerNotif = useNotification("I wanna go home");
+  const { loading, data, error, refetch } = useAxios({
+    url: "https://api.themoviedb.org/3/movie/now_playing?page=1&api_key=6c61618f0f7e88b0c9c7babe5058cf8f&include_adult=false&page=1&region=kr"
+  });
 
   return (
     <div className="App">
-      <button onClick={triggerNotif}>Click Here</button>
+      <h1>{data && JSON.stringify(data.data.total_results)}</h1>
+      <h2>{loading && "loading..."}</h2>
+      <button onClick={refetch}>Refetch</button>
     </div>
   );
 };
