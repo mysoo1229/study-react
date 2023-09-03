@@ -4,8 +4,13 @@ import { useRouter } from "next/router";
 
 export default function Home({results}) {
   const router = useRouter();
-  const onClick = (id) => {
-    router.push(`/movies/${id}`)
+  const onClick = (id, title) => {
+    router.push({
+      pathname: `/movies/${id}`,
+      query: {
+        title,
+      },
+    }, `/movies/${id}`);
   };
 
   return (
@@ -19,13 +24,18 @@ export default function Home({results}) {
         //   </div>
         // </Link>
         <div
-          onClick={() => onClick(movie.id)}
+          onClick={() => onClick(movie.id, movie.original_title)}
           className="movie"
           key={movie.id}
         >
           <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
           <h4>
-            <Link href={`/movies/${movie.id}`}>
+            <Link href={{
+              pathname: `/movies/${movie.id}`,
+              query: {
+                title: movie.original_title,
+              },
+            }}>
                 {movie.original_title}
             </Link>
           </h4>
